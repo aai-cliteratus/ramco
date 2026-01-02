@@ -51,6 +51,49 @@
 <div class="container-fluid m-1">
 
     <h1 class="mb-4 text-center" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.3);">Ramco Records</h1>
+<form action="{{ route('ramco.index') }}" method="GET" class="d-flex flex-wrap align-items-end gap-3 mb-3">
+
+    <!-- Document Number -->
+    <div class="d-flex flex-column">
+        <label class="form-label fw-semibold">Document Number</label>
+        <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Document Number"
+            name="doc_no"
+            id="filterDocNo"
+            value="{{ request('doc_no') }}"
+        >
+    </div>
+
+    <!-- Month -->
+    <div class="d-flex flex-column">
+        <label class="form-label fw-semibold">Month</label>
+        <select class="form-select" name="month" id="filterMonth">
+            <option value="">-- Select Month --</option>
+            @foreach(range(1,12) as $m)
+                <option value="{{ $m }}" {{ request('month') == $m ? 'selected' : '' }}>
+                    {{ DateTime::createFromFormat('!m', $m)->format('F') }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
+    <!-- Year -->
+    <div class="d-flex flex-column">
+        <label class="form-label fw-semibold">Year</label>
+        <select class="form-select" name="year" id="filterYear">
+            <option value="">-- Select Year --</option>
+        </select>
+    </div>
+
+    <!-- Submit button -->
+    <div class="d-flex flex-column mt-auto">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
+</form>
+
 
     <div class="card shadow-sm mb-4">
         <div class="card-header bg-light fw-bold">INQ</div>
@@ -252,6 +295,18 @@ $(document).ready(function() {
     });
 
 });
+
+const yearSelect = document.getElementById('filterYear');
+const startYear = 2000;
+const endYear = new Date().getFullYear(); // current year
+
+for (let year = endYear; year >= startYear; year--) {
+    const option = document.createElement('option');
+    option.value = year;
+    option.text = year;
+    yearSelect.appendChild(option);
+}
+
 </script>
 </body>
 </html>
