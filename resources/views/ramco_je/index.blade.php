@@ -50,17 +50,257 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0,0,0,0.08);
         }
+.ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple-circle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+    transform: scale(0);
+    pointer-events: none;
+}
+
+.ripple-animate {
+    animation: rippleEffect 0.6s linear;
+}
+
+@keyframes rippleEffect {
+    to {
+        transform: scale(15);
+        opacity: 0;
+    }
+}
+
+/* Buttons shadow */
+.btn {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15); /* soft shadow */
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+    box-shadow: 0 6px 14px rgba(0,0,0,0.2); /* deeper shadow on hover */
+    transform: translateY(-2px); /* subtle lift effect */
+}
+
+/* Table shadow */
+#inqTable {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* subtle table shadow */
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+/* Table header shadow on hover (optional) */
+#inqTable thead tr {
+    background-color: #f8f9fa;
+    box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
+}
+
+/* Optional: add subtle row hover shadow already present */
+#inqTable tbody tr:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+/* Top Bar */
+.top-bar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #0d6efd;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    z-index: 1000;
+}
+
+/* Hamburger */
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.hamburger span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background: white;
+    border-radius: 2px;
+}
+
+/* Top Menu (hidden by default) */
+.top-menu {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #0d6efd;
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    border-radius: 0 0 6px 6px;
+}
+
+.top-menu a {
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.5s; /* smooth color transition */
+}
+
+.top-menu a:hover {
+    color: #bccaf7ff; /* change text color on hover */
+    background-color: transparent; /* keep background unchanged */
+}
+
+
+/* Show menu when active */
+.top-menu.active {
+    display: flex;
+}
+
+/* Responsive: always visible on large screens */
+@media (min-width: 768px) {
+    .hamburger {
+        display: none;
+    }
+    .top-menu {
+        position: static;
+        display: flex !important;
+        flex-direction: row;
+        background: transparent;
+        box-shadow: none;
+        border-radius: 0;
+    }
+    .top-menu a {
+        padding: 0 15px;
+    }
+}
+
+.ocean-wave-btn {
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    background-color: #0d6efd;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+/* Wave at the bottom */
+.ocean-wave-btn::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;           /* double width for seamless scroll */
+    height: 12px;          /* wave height */
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="12"><path fill="%23ffffff" d="M0 6 C25 0 50 12 75 6 C100 0 125 12 150 6 C175 0 200 12 200 6 V12 H0 Z"/></svg>') repeat-x;
+    opacity: 0.4;
+    animation: waveScroll 3s linear infinite;
+}
+
+/* Infinite horizontal scroll */
+@keyframes waveScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* scroll exactly half width */
+}
+.ocean-wave-btn {
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    /* background-color: #0d6efd; */
+    border: none;
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+/* Wave at the bottom */
+.ocean-wave-btn::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;           /* double width for seamless scroll */
+    height: 12px;          /* wave height */
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="12"><path fill="%23ffffff" d="M0 6 C25 0 50 12 75 6 C100 0 125 12 150 6 C175 0 200 12 200 6 V12 H0 Z"/></svg>') repeat-x;
+    opacity: 0.4;
+    animation: waveScroll 4s linear infinite;
+}
+
+/* Infinite horizontal scroll */
+@keyframes waveScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* scroll exactly half width */
+}
+
+.ocean-wave-btn1 {
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+/* Wave at the bottom */
+.ocean-wave-btn1::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;           /* double width for seamless scroll */
+    height: 12px;          /* wave height */
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="12"><path fill="%23ffffff" d="M0 6 C25 0 50 12 75 6 C100 0 125 12 150 6 C175 0 200 12 200 6 V12 H0 Z"/></svg>') repeat-x;
+    opacity: 0.4;
+    animation: waveScroll1 5s linear infinite;
+}
+
+/* Infinite horizontal scroll */
+@keyframes waveScroll1 {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* scroll exactly half width */
+}
+
     </style>
 </head>
 <body>
+<!-- Top Bar with Hamburger -->
+<div class="top-bar d-flex align-items-center justify-content-between px-4">
+    <h2 class="mb-0 text-white">RAMCO Inquiry System</h2>
 
-<div class="container my-4">
-<h1 class="mb-4 text-center">Ramco JE Records</h1>
+    <!-- Hamburger -->
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 
-<form action="{{ route('ramco_je.index') }}" method="GET" class="d-flex flex-wrap align-items-end gap-3 mb-3">
+    <!-- Menu Links -->
+    <div class="top-menu" id="topMenu">
+        <a href="/ramco" class="top-link">Ramco</a>
+        <a href="/ramco_inq" class="top-link">Ramco INQ</a>
+        <a href="/ramco_je" class="top-link">Ramco JE</a>
+    </div>
+</div>
+<div class="container-fluid px-3">
+<h1 class="mb-4 text-center" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.3);">Ramco JE Records</h1>
+
+<form action="{{ route('ramco_je.index') }}" method="GET" class="d-flex flex-wrap align-items-end gap-3 mb-3" id="jeForm">
     <div class="d-flex flex-column">
-        <label class="form-label fw-semibold">Document Number</label>
-        <input type="text" class="form-control" name="doc_no" value="{{ request('doc_no') }}">
+        <label class="form-label fw-semibold">Doc No / Acct Code</label>
+        <input type="text" class="form-control" name="doc_no">
     </div>
 
     <div class="d-flex flex-column">
@@ -82,8 +322,17 @@
         </select>
     </div>
 
-    <div class="d-flex flex-column mt-auto">
-        <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="d-flex gap-2 mt-auto">
+        <button type="submit" class="btn btn-primary ripple ocean-wave-btn">
+            Submit
+        </button>
+
+        <button
+            type="submit"
+            formaction="{{ route('ramco_je.export') }}"
+            class="btn btn-success ripple ocean-wave-btn1">
+            Excel
+        </button>
     </div>
 </form>
 
@@ -230,6 +479,42 @@ $(function () {
 
 const y = document.getElementById('filterYear');
 for (let i = new Date().getFullYear(); i >= 2000; i--) y.add(new Option(i,i));
+
+document.querySelectorAll('.ripple').forEach(button => {
+    button.addEventListener('click', function(e) {
+        const circle = document.createElement('span');
+        circle.classList.add('ripple-circle');
+        this.appendChild(circle);
+
+        // Position the circle at click
+        const rect = this.getBoundingClientRect();
+        circle.style.left = e.clientX - rect.left - circle.offsetWidth/2 + 'px';
+        circle.style.top  = e.clientY - rect.top - circle.offsetHeight/2 + 'px';
+
+        circle.classList.add('ripple-animate');
+
+        // Remove after animation
+        circle.addEventListener('animationend', () => circle.remove());
+    });
+});
+
+// Hamburger toggle
+const hamburger = document.getElementById('hamburger');
+const topMenu = document.getElementById('topMenu');
+
+hamburger.addEventListener('click', () => {
+    topMenu.classList.toggle('active');
+});
+
+    // Reset form after submit/download
+    const form = document.getElementById('jeForm');
+
+    form.addEventListener('submit', function(e) {
+        // Allow the form to submit first
+        setTimeout(() => {
+            form.reset(); // clear all fields
+        }, 100); // small delay to ensure submit/download happens
+    });
 </script>
 
 </body>
