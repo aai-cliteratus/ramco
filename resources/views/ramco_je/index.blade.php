@@ -295,7 +295,11 @@
         0 2px 3px rgba(0,0,0,0.6),
         0 -1px 1px rgba(255,255,255,0.2);
 }
-
+/* Shadow when button appears */
+#scrollTopBtn.show-shadow {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4); /* darker shadow */
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
     </style>
 </head>
 <body>
@@ -490,7 +494,12 @@
 <input type="hidden" id="nextPageUrl" value="{{ $inqs->nextPageUrl() }}">
 </div>
 
-<button id="scrollTopBtn">↑</button>
+<button id="scrollTopBtn" class="show-shadow">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="6" width="4" height="12" rx="1" ry="1"/>
+    <polygon points="12,2 18,10 6,10"/>
+  </svg>
+</button>
 
 <script>
 function recalcTotals() {
