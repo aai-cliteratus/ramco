@@ -6,6 +6,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="icon" type="image/png" href="{{ asset('img/favico.ico') }}">
 
     <style>
         .column-search {
@@ -272,13 +273,21 @@
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); } /* scroll exactly half width */
 }
+.inner-shadow {
+    text-shadow:
+        0 2px 3px rgba(0,0,0,0.6),
+        0 -1px 1px rgba(255,255,255,0.2);
+}
 
     </style>
 </head>
 <body>
 <!-- Top Bar with Hamburger -->
 <div class="top-bar d-flex align-items-center justify-content-between px-4">
-    <h2 class="mb-0 text-white">RAMCO Inquiry System</h2>
+    <img src="{{ asset('img/logo.png') }}" alt="Logo" height="40">
+    <h2 class="mb-0 text-white inner-shadow">
+    RAMCO Inquiry System
+</h2>
 
     <!-- Hamburger -->
     <div class="hamburger" id="hamburger">
