@@ -19,13 +19,30 @@
             cursor: pointer;
             user-select: none;
         }
-        .sortable::after {
-            content: ' ⇅';
+        .sort-arrows {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 4px;
             font-size: 0.7rem;
-            color: #aaa;
+            line-height: 0.6; /* stack closer */
         }
-        .sortable.asc::after { content: ' ▲'; color: #000; }
-        .sortable.desc::after { content: ' ▼'; color: #000; }
+
+        .arrow-up,
+        .arrow-down {
+            display: block;
+            color: #aaa; /* neutral gray */
+        }
+
+        /* Sorted ascending */
+        .sortable.asc .arrow-up {
+            color: #000; /* active black */
+        }
+
+        /* Sorted descending */
+        .sortable.desc .arrow-down {
+            color: #000; /* active black */
+        }
+
 
         #scrollTopBtn {
             display: none;
@@ -285,9 +302,9 @@
 <!-- Top Bar with Hamburger -->
 <div class="top-bar d-flex align-items-center justify-content-between px-4">
     <img src="{{ asset('img/logo.png') }}" alt="Logo" height="40">
-    <h2 class="mb-0 text-white inner-shadow">
-    RAMCO Inquiry System
-</h2>
+    <h2 class="mb-0 text-white inner-shadow text-center">
+        RAMCO Inquiry System
+    </h2>
 
     <!-- Hamburger -->
     <div class="hamburger" id="hamburger">
@@ -304,7 +321,9 @@
     </div>
 </div>
 <div class="container-fluid px-3">
-<h1 class="mb-4 text-center" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.3);">Ramco JE Records</h1>
+<h1 class="mt-3 pt-2 mb-4 text-center" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.3);">
+    Ramco JE Records
+</h1>
 
 <form action="{{ route('ramco_je.index') }}" method="GET" class="d-flex flex-wrap align-items-end gap-3 mb-3" id="jeForm">
     <div class="d-flex flex-column">
@@ -344,59 +363,125 @@
         </button>
     </div>
 </form>
+<!-- Card Wrapper -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light fw-bold">
+            <h5 class="mb-0">JE</h5>
+        </div>
+        <div class="card-body p-3">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped mb-0" id="inqTable">
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-col="0" style="background-color: #faf8f8ff;">
+                                GL Number
+                                <span class="sort-arrows">
+                                    <span class="arrow-up">▲</span>
+                                    <span class="arrow-down">▼</span>
+                                </span>
+                            </th>
+                            <th class="sortable" data-col="1" style="background-color: #faf8f8ff;">
+                                JE Number
+                                <span class="sort-arrows">
+                                    <span class="arrow-up">▲</span>
+                                    <span class="arrow-down">▼</span>
+                                </span>
+                            </th>
+                            <th class="sortable" data-col="2" style="background-color: #faf8f8ff;">
+                                Account Code
+                                <span class="sort-arrows">
+                                    <span class="arrow-up">▲</span>
+                                    <span class="arrow-down">▼</span>
+                                </span>
+                            </th>
+                            <th class="sortable" data-col="3" style="background-color: #faf8f8ff;">
+                                PHP Amount<br>
+                                <small>Total: <span id="drTotal">0.00</span></small>
+                                <span class="sort-arrows">
+                                    <span class="arrow-up">▲</span>
+                                    <span class="arrow-down">▼</span>
+                                </span>
+                            </th>
+                            <th class="sortable" data-col="4" style="background-color: #faf8f8ff;">
+                                USD Amount<br>
+                                <small>Total: <span id="crTotal">0.00</span></small>
+                                <span class="sort-arrows">
+                                    <span class="arrow-up">▲</span>
+                                    <span class="arrow-down">▼</span>
+                                </span>
+                            </th>
+                            <th class="sortable" data-col="5" style="background-color: #faf8f8ff;">Exrate
+                                <span class="sort-arrows">
+                                    <span class="arrow-up">▲</span>
+                                    <span class="arrow-down">▼</span>
+                                </span>
+                            </th>
+                            <th class="sortable" data-col="6" style="background-color: #faf8f8ff;">Account Type
+                                <span class="sort-arrows">
+                                    <span class="arrow-up">▲</span>
+                                    <span class="arrow-down">▼</span>
+                                </span>
+                            </th>
+                            <th class="sortable" data-col="7" style="background-color: #faf8f8ff;">Fiscal Period
+                                <span class="sort-arrows">
+                                    <span class="arrow-up">▲</span>
+                                    <span class="arrow-down">▼</span>
+                                </span>
+                            </th>
+                            <th class="sortable" data-col="8" style="background-color: #faf8f8ff;">Fiscal Year
+                                <span class="sort-arrows">
+                                    <span class="arrow-up">▲</span>
+                                    <span class="arrow-down">▼</span>
+                                </span>
+                            </th>
+                            <th class="sortable" data-col="9" style="background-color: #faf8f8ff;">Prepared By
+                                <span class="sort-arrows">
+                                    <span class="arrow-up">▲</span>
+                                    <span class="arrow-down">▼</span>
+                                </span>
+                            </th>
+                            <th class="sortable" data-col="10" style="background-color: #faf8f8ff;">Approved By
+                                <span class="sort-arrows">
+                                    <span class="arrow-up">▲</span>
+                                    <span class="arrow-down">▼</span>
+                                </span>
+                            </th>
+                            <th class="sortable" data-col="11" style="background-color: #faf8f8ff;">JE Remarks
+                                <span class="sort-arrows">
+                                    <span class="arrow-up">▲</span>
+                                    <span class="arrow-down">▼</span>
+                                </span>
+                            </th>
+                        </tr>
 
-<table class="table table-bordered table-striped" id="inqTable">
-<thead>
-<tr>
-    <th class="sortable" data-col="0">GL Number</th>
-    <th class="sortable" data-col="1">JE Number</th>
-    <th class="sortable" data-col="2">Account Code</th>
-
-    <!-- TOTALS IN HEADER -->
-    <th class="sortable" data-col="3">
-        PHP Amount<br>
-        <small>Total: <span id="drTotal">0.00</span></small>
-    </th>
-    <th class="sortable" data-col="4">
-        USD Amount<br>
-        <small>Total: <span id="crTotal">0.00</span></small>
-    </th>
-
-    <th class="sortable" data-col="5">Exrate</th>
-    <th class="sortable" data-col="6">Account Type</th>
-    <th class="sortable" data-col="7">Fiscal Period</th>
-    <th class="sortable" data-col="8">Fiscal Year</th>
-    <th class="sortable" data-col="9">Prepared By</th>
-    <th class="sortable" data-col="10">Approved By</th>
-    <th class="sortable" data-col="11">JE Remarks</th>
-</tr>
-
-<tr>
-@foreach(range(1,12) as $i)
-    <th><input class="column-search" data-col="{{ $i-1 }}" placeholder="Search"></th>
-@endforeach
-</tr>
-</thead>
-
-<tbody id="inqTableBody">
-@foreach($inqs as $inq)
-<tr>
-    <td>{{ $inq->gl_number }}</td>
-    <td>{{ $inq->je_number }}</td>
-    <td>{{ $inq->acct_code }}</td>
-    <td class="text-end">{{ $inq->php_amt > 0 ? number_format($inq->php_amt,2) : '' }}</td>
-    <td class="text-end">{{ $inq->usd_amt > 0 ? number_format(abs($inq->usd_amt),2) : '' }}</td>
-    <td>{{ $inq->exrate }}</td>
-    <td>{{ $inq->acct_type }}</td>
-    <td>{{ $inq->fiscal_period }}</td>
-    <td>{{ $inq->fiscal_year }}</td>
-    <td>{{ $inq->preparer_id }}</td>
-    <td>{{ $inq->approver_id }}</td>
-    <td>{{ $inq->je_remarks }}</td>
-</tr>
-@endforeach
-</tbody>
-</table>
+                        <tr>
+                            @foreach(range(1,12) as $i)
+                                <th><input class="column-search" data-col="{{ $i-1 }}" placeholder="Search"></th>
+                            @endforeach
+                        </tr>
+                    </thead>
+                    <tbody id="inqTableBody">
+                        @foreach($inqs as $inq)
+                        <tr>
+                            <td>{{ $inq->gl_number }}</td>
+                            <td>{{ $inq->je_number }}</td>
+                            <td>{{ $inq->acct_code }}</td>
+                            <td class="text-end">{{ $inq->php_amt > 0 ? number_format($inq->php_amt,2) : '' }}</td>
+                            <td class="text-end">{{ $inq->usd_amt > 0 ? number_format(abs($inq->usd_amt),2) : '' }}</td>
+                            <td>{{ $inq->exrate }}</td>
+                            <td>{{ $inq->acct_type }}</td>
+                            <td>{{ $inq->fiscal_period }}</td>
+                            <td>{{ $inq->fiscal_year }}</td>
+                            <td>{{ $inq->preparer_id }}</td>
+                            <td>{{ $inq->approver_id }}</td>
+                            <td>{{ $inq->je_remarks }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
 <div id="loadMoreSpinner" class="text-center my-3" style="display:none;">
     <div class="spinner-border text-primary"></div>

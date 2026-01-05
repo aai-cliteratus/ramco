@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <title>RAMCO Inquiry</title>
 
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+
+    <!-- DataTables Buttons CSS -->
+    <link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <link rel="icon" type="image/png" href="{{ asset('img/favico.ico') }}">
@@ -19,13 +24,29 @@
             cursor: pointer;
             user-select: none;
         }
-        .sortable::after {
-            content: ' ⇅';
+        .sort-arrows {
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 4px;
             font-size: 0.7rem;
-            color: #aaa;
+            line-height: 0.6; /* stack closer */
         }
-        .sortable.asc::after { content: ' ▲'; color: #000; }
-        .sortable.desc::after { content: ' ▼'; color: #000; }
+
+        .arrow-up,
+        .arrow-down {
+            display: block;
+            color: #aaa; /* neutral gray */
+        }
+
+        /* Sorted ascending */
+        .sortable.asc .arrow-up {
+            color: #000; /* active black */
+        }
+
+        /* Sorted descending */
+        .sortable.desc .arrow-down {
+            color: #000; /* active black */
+        }
 
         #scrollTopBtn {
             display: none;
@@ -305,7 +326,7 @@
 </div>
 
 <div class="container-fluid px-3">
-<h1 class="mb-4 text-center" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.3);">Ramco INQ Records</h1>
+<h1 class="mt-3 pt-2 mb-4 text-center" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.3);">Ramco INQ Records</h1>
 
 <form action="{{ route('ramco_inq.index') }}" method="GET" class="d-flex flex-wrap align-items-end gap-3 mb-3" id="inqForm">
     <div class="d-flex flex-column">
@@ -347,27 +368,118 @@
         <button type="submit" formaction="{{ route('ramco_inq.export') }}" class="btn btn-success ripple ocean-wave-btn1">Excel</button>
     </div>
 </form>
-
+<!-- Card Wrapper -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light fw-bold">
+            <h5 class="mb-0">INQ</h5>
+        </div>
+        <div class="card-body p-3">
+            <div class="table-responsive">
 <table class="table table-bordered table-striped" id="inqTable">
     <thead>
     <tr>
-        <th class="sortable" data-col="0">HDR No</th>
-        <th class="sortable" data-col="1">Finance Book</th>
-        <th class="sortable" data-col="2">Account Code</th>
-        <th class="sortable" data-col="3">DR<br><small>Total: <span id="drTotal">0.00</span></small></th>
-        <th class="sortable" data-col="4">CR<br><small>Total: <span id="crTotal">0.00</span></small></th>
-        <th class="sortable" data-col="5">Trans Type</th>
-        <th class="sortable" data-col="6">Cost Center</th>
-        <th class="sortable" data-col="7">Analysis Code</th>
-        <th class="sortable" data-col="8">Sub Analysis</th>
-        <th class="sortable" data-col="9">Doc Ref Type</th>
-        <th class="sortable" data-col="10">Doc Ref</th>
-        <th class="sortable" data-col="11">Month</th>
-        <th class="sortable" data-col="12">Year</th>
-        <th class="sortable" data-col="13">Supplier Code</th>
-        <th class="sortable" data-col="14">Supplier Name</th>
-        <th class="sortable" data-col="15">Remarks</th>
-        <th class="sortable" data-col="16">Created By</th>
+        <th class="sortable" data-col="0" style="background-color: #faf8f8ff;">HDR No
+    <span class="sort-arrows">
+        <span class="arrow-up">▲</span>
+        <span class="arrow-down">▼</span>
+    </span>
+        </th>
+        <th class="sortable" data-col="1" style="background-color: #faf8f8ff;">Finance Book
+    <span class="sort-arrows">
+        <span class="arrow-up">▲</span>
+        <span class="arrow-down">▼</span>
+    </span>
+        </th>
+        <th class="sortable" data-col="2" style="background-color: #faf8f8ff;">Account Code
+    <span class="sort-arrows">
+        <span class="arrow-up">▲</span>
+        <span class="arrow-down">▼</span>
+    </span>
+        </th>
+        <th class="sortable" data-col="3" style="background-color: #faf8f8ff;">DR <small>Total: <span id="drTotal">0.00</span></small>
+    <span class="sort-arrows">
+        <span class="arrow-up">▲</span>
+        <span class="arrow-down">▼</span>
+    </span>
+        </th>
+        <th class="sortable" data-col="4" style="background-color: #faf8f8ff;">CR <small>Total: <span id="crTotal">0.00</span></small>
+    <span class="sort-arrows">
+        <span class="arrow-up">▲</span>
+        <span class="arrow-down">▼</span>
+    </span>
+        </th>
+        <th class="sortable" data-col="5" style="background-color: #faf8f8ff;">Trans Type
+    <span class="sort-arrows">
+        <span class="arrow-up">▲</span>
+        <span class="arrow-down">▼</span>
+    </span>
+        </th>
+        <th class="sortable" data-col="6" style="background-color: #faf8f8ff;">Cost Center
+    <span class="sort-arrows">
+        <span class="arrow-up">▲</span>
+        <span class="arrow-down">▼</span>
+    </span>
+        </th>
+        <th class="sortable" data-col="7" style="background-color: #faf8f8ff;">Analysis Code
+    <span class="sort-arrows">
+        <span class="arrow-up">▲</span>
+        <span class="arrow-down">▼</span>
+    </span>
+        </th>
+        <th class="sortable" data-col="8" style="background-color: #faf8f8ff;">Sub Analysis
+    <span class="sort-arrows">
+        <span class="arrow-up">▲</span>
+        <span class="arrow-down">▼</span>
+    </span>
+        </th>
+        <th class="sortable" data-col="9" style="background-color: #faf8f8ff;">Doc Ref Type
+    <span class="sort-arrows">
+        <span class="arrow-up">▲</span>
+        <span class="arrow-down">▼</span>
+    </span>
+        </th>
+        <th class="sortable" data-col="10" style="background-color: #faf8f8ff;">Doc Ref
+    <span class="sort-arrows">
+        <span class="arrow-up">▲</span>
+        <span class="arrow-down">▼</span>
+    </span>
+        </th>
+        <th class="sortable" data-col="11" style="background-color: #faf8f8ff;">Month
+    <span class="sort-arrows">
+        <span class="arrow-up">▲</span>
+        <span class="arrow-down">▼</span>
+    </span>
+        </th>
+        <th class="sortable" data-col="12" style="background-color: #faf8f8ff;">Year
+    <span class="sort-arrows">
+        <span class="arrow-up">▲</span>
+        <span class="arrow-down">▼</span>
+    </span>
+        </th>
+        <th class="sortable" data-col="13" style="background-color: #faf8f8ff;">Supplier Code
+    <span class="sort-arrows">
+        <span class="arrow-up">▲</span>
+        <span class="arrow-down">▼</span>
+    </span>
+        </th>
+        <th class="sortable" data-col="14" style="background-color: #faf8f8ff;">Supplier Name
+    <span class="sort-arrows">
+        <span class="arrow-up">▲</span>
+        <span class="arrow-down">▼</span>
+    </span>
+        </th>
+        <th class="sortable" data-col="15" style="background-color: #faf8f8ff;">Remarks
+    <span class="sort-arrows">
+        <span class="arrow-up">▲</span>
+        <span class="arrow-down">▼</span>
+    </span>
+        </th>
+        <th class="sortable" data-col="16" style="background-color: #faf8f8ff;">Created By
+    <span class="sort-arrows">
+        <span class="arrow-up">▲</span>
+        <span class="arrow-down">▼</span>
+    </span>
+        </th>
     </tr>
 
     <tr>
@@ -401,6 +513,9 @@
     @endforeach
     </tbody>
 </table>
+            </div>
+        </div>
+    </div>
 
 <div id="loadMoreSpinner" class="text-center my-3" style="display:none;">
     <div class="spinner-border text-primary"></div>

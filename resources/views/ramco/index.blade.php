@@ -237,7 +237,7 @@
 </div>
 <div class="container-fluid m-1">
 
-    <h1 class="mb-4 text-center" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.3);">Ramco Records</h1>
+    <h1 class="mt-3 pt-2 mb-4 text-center" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.3);">Ramco Records</h1>
 <form action="{{ route('ramco.index') }}" method="GET" class="d-flex flex-wrap align-items-end gap-3 mb-3">
 
     <!-- Document Number -->
