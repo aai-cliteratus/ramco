@@ -167,6 +167,33 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.4); /* darker shadow */
     transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
+
+       
+.ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple-circle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+    transform: scale(0);
+    pointer-events: none;
+}
+
+.ripple-animate {
+    animation: rippleEffect 0.6s linear;
+}
+
+@keyframes rippleEffect {
+    to {
+        transform: scale(15);
+        opacity: 0;
+    }
+}
 </style>
 </head>
 <body>
@@ -329,6 +356,24 @@ $(function() {
     }
 
 });
+
+        document.querySelectorAll('.ripple').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const circle = document.createElement('span');
+                circle.classList.add('ripple-circle');
+                this.appendChild(circle);
+
+                // Position the circle at click
+                const rect = this.getBoundingClientRect();
+                circle.style.left = e.clientX - rect.left - circle.offsetWidth/2 + 'px';
+                circle.style.top  = e.clientY - rect.top - circle.offsetHeight/2 + 'px';
+
+                circle.classList.add('ripple-animate');
+
+                // Remove after animation
+                circle.addEventListener('animationend', () => circle.remove());
+            });
+        });
 </script>
 
 </body>
