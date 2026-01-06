@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Warehouse Nexus - Neon Trucks & Planes</title>
+<title>AAI Worldwide Logistics</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-
+<link rel="icon" type="image/png" href="{{ asset('img/favico.ico') }}">
 <style>
 /* Fade-in animations */
 .fade-in { opacity:0; animation: fadeIn 1s forwards ease; }

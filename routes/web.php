@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\Redis;
 Route::get('/ramco', [RamcoViewController::class, 'index'])->name('ramco.index');
 Route::get('/ramco_inq', [RamcoViewController::class, 'ramco_inq'])->name('ramco_inq.index');
 Route::get('/ramco_je', [RamcoViewController::class, 'ramco_je'])->name('ramco_je.index');
+Route::get('/ramco_tb', [RamcoViewController::class, 'ramco_tb'])->name('ramco_tb.index');
 Route::get('/ramco-inq/export', [RamcoViewController::class, 'ramco_inq_export'])->name('ramco_inq.export');
 Route::get('/ramco-je/export', [RamcoViewController::class, 'ramco_je_export'])->name('ramco_je.export');
+Route::get('/ramco-tb/export', [RamcoViewController::class, 'ramco_tb_export'])->name('ramco_tb.export');
 
 Route::get('/redis-test', function () {
     try {

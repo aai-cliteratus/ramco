@@ -105,7 +105,7 @@
     top: 0;
     width: 100%;
     height: 60px;
-    background-color: #0d6efd;
+    background-color: #a3a3a3ff;
     box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     z-index: 1000;
 }
@@ -180,7 +180,7 @@
     position: relative;
     overflow: hidden;
     color: #fff;
-    /* background-color: #0d6efd; */
+    background-color: #7e7d7dff;
     border: none;
     padding: 0.6rem 1.5rem;
     font-size: 1rem;
@@ -218,7 +218,9 @@
     
 <!-- Top Bar with Hamburger -->
 <div class="top-bar d-flex align-items-center justify-content-between px-4">
-    <img src="{{ asset('img/logo.png') }}" alt="Logo" height="40">
+  <a href="./" class="inline-flex flex-col items-center gap-2 cursor-pointer">
+    <img src="{{ asset('img/logo.png') }}" alt="Logo" height="40" class="logo-glow">
+      </a>
     <h2 class="mb-0 text-white inner-shadow">RAMCO Inquiry System</h2>
 
     <!-- Hamburger -->
@@ -233,6 +235,7 @@
         <a href="/ramco" class="top-link">Ramco</a>
         <a href="/ramco_inq" class="top-link">Ramco INQ</a>
         <a href="/ramco_je" class="top-link">Ramco JE</a>
+        <a href="/ramco_tb" class="top-link">Ramco TB</a>
     </div>
 </div>
 <div class="container-fluid m-1">
@@ -276,7 +279,7 @@
 
     <!-- Submit button -->
     <div class="d-flex flex-column mt-auto">
-        <button type="submit" class="btn btn-primary ripple ocean-wave-btn">Submit</button>
+        <button type="submit" class="btn btn-secondary ripple ocean-wave-btn">Submit</button>
     </div>
 
 </form>
@@ -493,14 +496,14 @@ $details.each(function() {
         const yearSelect = document.getElementById('filterYear');
         const startYear = 2000;
         const endYear = new Date().getFullYear(); // current year
-
-        for (let year = endYear; year >= startYear; year--) {
-            const option = document.createElement('option');
-            option.value = year;
-            option.text = year;
-            yearSelect.appendChild(option);
+        
+        const y = document.getElementById('filterYear');
+        const selectedYear = "{{ request('year') ?? '' }}"; // Get selected year from request
+        for(let i=new Date().getFullYear(); i>=2000; i--) {
+            let option = new Option(i, i);
+            if(i == selectedYear) option.selected = true; // mark selected
+            y.add(option);
         }
-
         document.querySelectorAll('.ripple').forEach(button => {
             button.addEventListener('click', function(e) {
                 const circle = document.createElement('span');

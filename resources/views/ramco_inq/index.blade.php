@@ -130,7 +130,7 @@
             top: 0;
             width: 100%;
             height: 60px;
-            background-color: #0d6efd;
+            background-color: #a3a3a3ff;
             box-shadow: 0 4px 12px rgba(0,0,0,0.25);
             z-index: 1000;
             display: flex;
@@ -209,37 +209,7 @@
     position: relative;
     overflow: hidden;
     color: #fff;
-    background-color: #0d6efd;
-    border: none;
-    padding: 0.6rem 1.5rem;
-    font-size: 1rem;
-    border-radius: 0.5rem;
-    cursor: pointer;
-}
-
-/* Wave at the bottom */
-.ocean-wave-btn::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 200%;           /* double width for seamless scroll */
-    height: 12px;          /* wave height */
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="12"><path fill="%23ffffff" d="M0 6 C25 0 50 12 75 6 C100 0 125 12 150 6 C175 0 200 12 200 6 V12 H0 Z"/></svg>') repeat-x;
-    opacity: 0.4;
-    animation: waveScroll 3s linear infinite;
-}
-
-/* Infinite horizontal scroll */
-@keyframes waveScroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); } /* scroll exactly half width */
-}
-.ocean-wave-btn {
-    position: relative;
-    overflow: hidden;
-    color: #fff;
-    /* background-color: #0d6efd; */
+    background-color: #7e7d7dff;
     border: none;
     padding: 0.6rem 1.5rem;
     font-size: 1rem;
@@ -270,6 +240,7 @@
     position: relative;
     overflow: hidden;
     color: #fff;
+    background-color: #5f5d5dff;
     border: none;
     padding: 0.6rem 1.5rem;
     font-size: 1rem;
@@ -312,7 +283,9 @@
 
 <!-- Top Bar with Hamburger -->
 <div class="top-bar d-flex align-items-center justify-content-between px-4">
-    <img src="{{ asset('img/logo.png') }}" alt="Logo" height="40">
+  <a href="./" class="inline-flex flex-col items-center gap-2 cursor-pointer">
+    <img src="{{ asset('img/logo.png') }}" alt="Logo" height="40" class="logo-glow">
+      </a>
     <h2 class="mb-0 text-white inner-shadow">RAMCO Inquiry System</h2>
 
     <!-- Hamburger -->
@@ -327,6 +300,7 @@
         <a href="/ramco" class="top-link">Ramco</a>
         <a href="/ramco_inq" class="top-link">Ramco INQ</a>
         <a href="/ramco_je" class="top-link">Ramco JE</a>
+        <a href="/ramco_tb" class="top-link">Ramco TB</a>
     </div>
 </div>
 
@@ -369,8 +343,8 @@
     </div>
 
     <div class="d-flex gap-2 mt-auto">
-        <button type="submit" class="btn btn-primary ripple ocean-wave-btn">Submit</button>
-        <button type="submit" formaction="{{ route('ramco_inq.export') }}" class="btn btn-success ripple ocean-wave-btn1">Excel</button>
+        <button type="submit" class="btn btn-secondary ripple ocean-wave-btn">Submit</button>
+        <button type="submit" formaction="{{ route('ramco_inq.export') }}" class="btn btn-secondary ripple ocean-wave-btn1">Excel</button>
     </div>
 </form>
 <!-- Card Wrapper -->
@@ -605,7 +579,12 @@ $(function () {
     $('#scrollTopBtn').click(() => $('html,body').animate({scrollTop:0},500));
 
     const y = document.getElementById('filterYear');
-    for (let i = new Date().getFullYear(); i >= 2000; i--) y.add(new Option(i,i));
+    const selectedYear = "{{ request('year') ?? '' }}"; // Get selected year from request
+    for(let i=new Date().getFullYear(); i>=2000; i--) {
+        let option = new Option(i, i);
+        if(i == selectedYear) option.selected = true; // mark selected
+        y.add(option);
+    }
 
     document.querySelectorAll('.ripple').forEach(button => {
         button.addEventListener('click', function(e) {

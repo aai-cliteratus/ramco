@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Exports\RamcoInquiryExport;
 use App\Exports\RamcoJeExport;
+use App\Exports\RamcoTbExport;
 use Maatwebsite\Excel\Facades\Excel;
 class RamcoViewController extends Controller
 {
@@ -53,7 +54,7 @@ class RamcoViewController extends Controller
         // 2. Query details
         $detailsQuery = DB::table('a2z_je as je');
         if (!empty($docNos)) {
-            $detailsQuery->whereIn('je.gl_number', $docNos);
+            $detailsQuery->whereIn('je.je_number', $docNos);
         }
         if (!empty($month)) {
             $detailsQuery->where('je.fiscal_period', $month);
@@ -64,7 +65,7 @@ class RamcoViewController extends Controller
         $details = $detailsQuery->get();
 
         // 3. Group details
-        $detailsGrouped = $details->groupBy('gl_number');
+        $detailsGrouped = $details->groupBy('je_number');
 
         // 4. Attach details to headers
         $results = $headers->map(function($header) use ($detailsGrouped) {
@@ -230,6 +231,39 @@ class RamcoViewController extends Controller
         return view('ramco_je.index', compact('inqs'));
     }
 
+    public function ramco_tb(Request $request)
+    {
+        $month = $request->input('month');
+        $year  = $request->input('year');
+
+        $inqs = collect(); // empty collection by default
+
+        if ($month || $year) {
+            $query = DB::table('a2z_je')
+                ->select(
+                    'acct_code',
+                    'acct_desc',
+                    DB::raw("SUM(CASE WHEN acct_type = 'DR' THEN php_amt ELSE 0 END) AS DR"),
+                    DB::raw("SUM(CASE WHEN acct_type = 'CR' THEN php_amt ELSE 0 END) AS CR")
+                );
+
+            if (!empty($month)) {
+                $query->where('fiscal_period', $month);
+            }
+
+            if (!empty($year)) {
+                $query->where('fiscal_year', $year);
+            }
+
+            $inqs = $query->groupBy('acct_code', 'acct_desc')
+                        ->orderBy('acct_code')
+                        ->get();
+        }
+
+        return view('ramco_tb.index', compact('inqs'));
+    }
+
+
     public function ramco_inq_export(Request $request)
     {
         return Excel::download(
@@ -246,4 +280,11 @@ class RamcoViewController extends Controller
         );
     }
 
+    public function ramco_tb_export(Request $request)
+    {
+        return Excel::download(
+            new RamcoTbExport($request),
+            'ramco_tb_' . now()->format('Ymd_His') . '.xlsx'
+        );
+    }
 }
