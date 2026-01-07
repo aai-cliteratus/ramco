@@ -12,6 +12,12 @@
     <td>{{ $inq->preparer_id }}</td>
     <td>{{ $inq->approver_id }}</td>
     <td>{{ $inq->je_remarks }}</td>
+    <td>
+        {{ \Carbon\Carbon::parse($inq->entry_date)->format('M d, Y') }}
+    </td>
+    <td>
+        {{ \Carbon\Carbon::parse($inq->effective_date)->format('M d, Y') }}
+    </td>
 </tr>
 @endforeach
 

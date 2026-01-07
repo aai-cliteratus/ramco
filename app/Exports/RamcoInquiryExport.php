@@ -79,6 +79,8 @@ class RamcoInquiryExport implements FromCollection, WithHeadings, ShouldAutoSize
                 'supplier_name',
                 'narration',
                 'created_by',
+                'trans_date',
+                'posting_date',
             ]);
     }
 
@@ -102,6 +104,8 @@ class RamcoInquiryExport implements FromCollection, WithHeadings, ShouldAutoSize
             'Supplier Name',
             'Remarks',
             'Created By',
+            'Trans Date',
+            'Posting Date',
         ];
     }
 }

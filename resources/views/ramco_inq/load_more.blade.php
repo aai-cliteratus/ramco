@@ -17,6 +17,12 @@
     <td>{{ $inq->supplier_name ?? '-' }}</td>
     <td>{{ $inq->narration ?? '-' }}</td>
     <td>{{ $inq->created_by ?? '-' }}</td>
+    <td>
+        {{ \Carbon\Carbon::parse($inq->trans_date)->format('M d, Y') }}
+    </td>
+    <td>
+        {{ \Carbon\Carbon::parse($inq->posting_date)->format('M d, Y') }}
+    </td>
 </tr>
 @endforeach
 

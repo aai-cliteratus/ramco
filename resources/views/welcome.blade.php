@@ -64,7 +64,7 @@
   <div class="absolute inset-0 bg-[linear-gradient(to_right,rgba(34,211,238,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(34,211,238,0.05)_1px,transparent_1px)] bg-[length:40px_40px]"></div>
 
   <!-- Trucks -->
-  <div class="absolute bottom-20 w-full h-24">
+  <div class="absolute bottom-0 w-full h-24">
     <div v-for="truck in trucks" :key="truck.id"
          class="absolute neon-truck"
          :style="{ left: truck.x + 'px', transform: 'scaleX(-1)' }">
@@ -76,7 +76,7 @@
   </div>
 
   <!-- Planes -->
-  <div class="absolute top-24 w-full h-16">
+  <div class="absolute top-10 w-full h-16">
     <div v-for="plane in planes" :key="plane.id"
          class="absolute neon-plane"
          :style="{ left: plane.x + 'px' }">
@@ -101,7 +101,7 @@
 
     <!-- Feature Cards -->
     @verbatim
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 z-10">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-16 z-10">
     <a v-for="(f, i) in features" 
         :key="i" 
         :href="f.link" 
@@ -140,6 +140,7 @@ createApp({
       { icon: '📊', title: 'Ramco', desc: 'Shows both inquiry and journal entry', link: '/ramco' },
       { icon: '🔍', title: 'Ramco Inquiry', desc: 'Shows inquiry only', link: '/ramco_inq' },
       { icon: '📝', title: 'Ramco Journal Entry', desc: 'Shows journal entry only', link: '/ramco_je' },
+      { icon: '📝', title: 'Ramco Trial Balance', desc: 'Shows JE Trial Balance only', link: '/ramco_tb' },
     ])
 
     onMounted(() => {

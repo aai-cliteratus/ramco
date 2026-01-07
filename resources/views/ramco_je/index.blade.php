@@ -122,83 +122,114 @@
 #inqTable tbody tr:hover {
     box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
-/* Top Bar */
-.top-bar {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    height: 60px;
-    background-color: #a3a3a3ff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-    z-index: 1000;
-}
+        /* Top Bar */
+        .top-bar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #a3a3a3ff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1rem;
+        }
 
-/* Hamburger */
-.hamburger {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 25px;
-    height: 18px;
-    cursor: pointer;
-}
+        /* Hamburger */
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 25px;
+            height: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-.hamburger span {
-    display: block;
-    height: 3px;
-    width: 100%;
-    background: white;
-    border-radius: 2px;
-}
+        .hamburger span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
 
-/* Top Menu (hidden by default) */
-.top-menu {
-    position: absolute;
-    top: 60px;
-    right: 0;
-    background-color: #0d6efd;
-    display: none;
-    flex-direction: column;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-    border-radius: 0 0 6px 6px;
-}
+        /* Hamburger active animation to X */
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
 
-.top-menu a {
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.5s; /* smooth color transition */
-}
+        /* Top Menu */
+        .top-menu {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background-color: #a3a3a3ff;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: all 0.4s ease;
+            border-radius: 0 0 6px 6px;
+            width: 200px;
+            z-index: 999;
+        }
 
-.top-menu a:hover {
-    color: #bccaf7ff; /* change text color on hover */
-    background-color: transparent; /* keep background unchanged */
-}
+        .top-menu.active {
+            max-height: 500px; /* enough to show all links */
+            opacity: 1;
+        }
 
+        .top-menu a {
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
 
-/* Show menu when active */
-.top-menu.active {
-    display: flex;
-}
+          .top-menu a:hover {
+            color: #6e6e6eff; /* change text color on hover */
+            background-color: transparent; /* keep background unchanged */
+        }
 
-/* Responsive: always visible on large screens */
-@media (min-width: 768px) {
-    .hamburger {
-        display: none;
-    }
-    .top-menu {
-        position: static;
-        display: flex !important;
-        flex-direction: row;
-        background: transparent;
-        box-shadow: none;
-        border-radius: 0;
-    }
-    .top-menu a {
-        padding: 0 15px;
-    }
-}
+        /* Hide title on small screens */
+        @media (max-width: 1000px) {
+            .top-bar h2 {
+                display: none;
+            }
+        }
+
+        /* Responsive: top menu always visible on large screens */
+        @media (min-width: 1001px) {
+            .hamburger {
+                display: none;
+            }
+            .top-menu {
+                position: static;
+                flex-direction: row;
+                display: flex !important;
+                background: transparent;
+                box-shadow: none;
+                border-radius: 0;
+                max-height: none;
+                opacity: 1;
+                width: auto;
+            }
+            .top-menu a {
+                padding: 0 15px;
+            }
+        }
 
 .ocean-wave-btn {
     position: relative;
@@ -308,7 +339,7 @@
 <form action="{{ route('ramco_je.index') }}" method="GET" class="d-flex flex-wrap align-items-end gap-3 mb-3" id="jeForm">
     <div class="d-flex flex-column">
         <label class="form-label fw-semibold">Doc No / Acct Code</label>
-        <input type="text" class="form-control" name="doc_no">
+        <input type="text" class="form-control" name="doc_no" value="{{ request('doc_no') }}">
     </div>
 
     <div class="d-flex flex-column">
@@ -328,6 +359,9 @@
         <select class="form-select" name="year" id="filterYear">
             <option value="">-- Select Year --</option>
         </select>
+        <small id="monthYearError" class="text-danger d-none">
+            Month and Year must be selected together.
+        </small>
     </div>
 
     <div class="d-flex gap-2 mt-auto">
@@ -432,10 +466,22 @@
                                     <span class="arrow-down">▼</span>
                                 </span>
                             </th>
+                            <th class="sortable" data-col="12" style="background-color: #faf8f8ff;">Entry Date
+                                <span class="sort-arrows">
+                                    <span class="arrow-up">▲</span>
+                                    <span class="arrow-down">▼</span>
+                                </span>
+                            </th>
+                            <th class="sortable" data-col="13" style="background-color: #faf8f8ff;">Effective Date
+                                <span class="sort-arrows">
+                                    <span class="arrow-up">▲</span>
+                                    <span class="arrow-down">▼</span>
+                                </span>
+                            </th>
                         </tr>
 
                         <tr>
-                            @foreach(range(1,12) as $i)
+                            @foreach(range(1,14) as $i)
                                 <th><input class="column-search" data-col="{{ $i-1 }}" placeholder="Search"></th>
                             @endforeach
                         </tr>
@@ -455,6 +501,12 @@
                             <td>{{ $inq->preparer_id }}</td>
                             <td>{{ $inq->approver_id }}</td>
                             <td>{{ $inq->je_remarks }}</td>
+                            <td>
+                                {{ \Carbon\Carbon::parse($inq->entry_date)->format('M d, Y') }}
+                            </td>
+                            <td>
+                                {{ \Carbon\Carbon::parse($inq->effective_date)->format('M d, Y') }}
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -586,19 +638,66 @@ document.querySelectorAll('.ripple').forEach(button => {
 const hamburger = document.getElementById('hamburger');
 const topMenu = document.getElementById('topMenu');
 
-hamburger.addEventListener('click', () => {
-    topMenu.classList.toggle('active');
-});
-
-    // Reset form after submit/download
-    const form = document.getElementById('jeForm');
-
-    form.addEventListener('submit', function(e) {
-        // Allow the form to submit first
-        setTimeout(() => {
-            form.reset(); // clear all fields
-        }, 100); // small delay to ensure submit/download happens
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active'); // animate X
+        topMenu.classList.toggle('active');   // dropdown
     });
+
+    // // Reset form after submit/download
+    // const form = document.getElementById('jeForm');
+
+    // form.addEventListener('submit', function(e) {
+    //     // Allow the form to submit first
+    //     setTimeout(() => {
+    //         form.reset(); // clear all fields
+    //     }, 100); // small delay to ensure submit/download happens
+    // });
+    (function () {
+    const form = document.getElementById('jeForm');
+    const month = form.querySelector('select[name="month"]');
+    const year  = form.querySelector('select[name="year"]');
+    const error = document.getElementById('monthYearError');
+    const buttons = form.querySelectorAll('button[type="submit"]');
+
+    function isValid() {
+        const hasMonth = month.value !== '';
+        const hasYear  = year.value !== '';
+
+        // valid if both empty OR both filled
+        return (hasMonth && hasYear) || (!hasMonth && !hasYear);
+    }
+
+    function updateUI() {
+        if (isValid()) {
+            error.classList.add('d-none');
+            buttons.forEach(b => {
+                b.disabled = false;
+                b.classList.remove('opacity-50');
+            });
+        } else {
+            error.classList.remove('d-none');
+            buttons.forEach(b => {
+                b.disabled = true;
+                b.classList.add('opacity-50');
+            });
+        }
+    }
+
+    // React when user changes month/year
+    month.addEventListener('change', updateUI);
+    year.addEventListener('change', updateUI);
+
+    // Block submit just in case (extra safety)
+    form.addEventListener('submit', function (e) {
+        if (!isValid()) {
+            e.preventDefault();
+            updateUI();
+        }
+    });
+
+    // Initial check on page load
+    updateUI();
+})();
 </script>
 
 </body>

@@ -59,6 +59,8 @@ class RamcoJeExport implements FromCollection, WithHeadings, ShouldAutoSize
                 'preparer_id',
                 'approver_id',
                 'je_remarks',
+                'entry_date',
+                'effective_date',
             ]);
     }
 
@@ -77,6 +79,8 @@ class RamcoJeExport implements FromCollection, WithHeadings, ShouldAutoSize
             'Prepared By',
             'Approved By',
             'JE Remarks',
+            'Entry Date',
+            'Effective Date',
         ];
     }
 }

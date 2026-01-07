@@ -137,6 +137,8 @@ class RamcoViewController extends Controller
         $docNo = $request->input('doc_no');
         $month = $request->input('month');
         $year  = $request->input('year');
+        $doc_ref1_type  = $request->input('doc_ref1_type');
+        $doc_ref1  = $request->input('doc_ref1');
 
         $query = DB::table('a2z_acct_inq');
 
@@ -172,6 +174,16 @@ class RamcoViewController extends Controller
         // Year filter
         if (!empty($year)) {
             $query->where('year', $year);
+        }
+
+        // Year filter
+        if (!empty($doc_ref1_type)) {
+            $query->where('doc_ref1_type', $doc_ref1_type);
+        }
+
+        // Year filter
+        if (!empty($doc_ref1)) {
+            $query->where('doc_ref1', $doc_ref1);
         }
 
         // Order + paginate

@@ -27,6 +27,10 @@
     background-color: #a3a3a3ff;
     box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
 }
 
 /* Hamburger */
@@ -37,6 +41,7 @@
     width: 25px;
     height: 18px;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .hamburger span {
@@ -45,18 +50,40 @@
     width: 100%;
     background: white;
     border-radius: 2px;
+    transition: all 0.3s ease;
 }
 
-/* Top Menu (hidden by default) */
+/* Hamburger active animation to X */
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Top Menu */
 .top-menu {
     position: absolute;
     top: 60px;
     right: 0;
-    background-color: #0d6efd;
-    display: none;
+    background-color: #a3a3a3ff;
+    display: flex;
     flex-direction: column;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: all 0.4s ease;
     border-radius: 0 0 6px 6px;
+    width: 200px;
+    z-index: 999;
+}
+
+.top-menu.active {
+    max-height: 500px; /* enough to show all links */
+    opacity: 1;
 }
 
 .top-menu a {
@@ -64,32 +91,36 @@
     padding: 10px 20px;
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.5s; /* smooth color transition */
+    transition: color 0.3s ease;
 }
 
-.top-menu a:hover {
-    color: #bccaf7ff; /* change text color on hover */
+    .top-menu a:hover {
+    color: #6e6e6eff; /* change text color on hover */
     background-color: transparent; /* keep background unchanged */
 }
 
-
-/* Show menu when active */
-.top-menu.active {
-    display: flex;
+/* Hide title on small screens */
+@media (max-width: 1000px) {
+    .top-bar h2 {
+        display: none;
+    }
 }
 
-/* Responsive: always visible on large screens */
-@media (min-width: 768px) {
+/* Responsive: top menu always visible on large screens */
+@media (min-width: 1001px) {
     .hamburger {
         display: none;
     }
     .top-menu {
         position: static;
-        display: flex !important;
         flex-direction: row;
+        display: flex !important;
         background: transparent;
         box-shadow: none;
         border-radius: 0;
+        max-height: none;
+        opacity: 1;
+        width: auto;
     }
     .top-menu a {
         padding: 0 15px;
@@ -246,6 +277,9 @@
         <select class="form-select" name="year" id="filterYear">
             <option value="">-- Select Year --</option>
         </select>
+        <small id="monthYearError" class="text-danger d-none">
+            Month and Year must be selected together.
+        </small>
     </div>
 
     <div class="d-flex gap-2 mt-auto">
@@ -312,6 +346,13 @@ $(function() {
             // Optional: ensure blank cells display 0
             if($(this).find('td').eq(2).text().trim() === '') $(this).find('td').eq(2).text('0.00');
             if($(this).find('td').eq(3).text().trim() === '') $(this).find('td').eq(3).text('0.00');
+
+            if(Math.abs(drVal - crVal) < 0.01) {
+                $(this).css('background-color', '#f8d7da'); // red-ish background
+            } else {
+                $(this).css('background-color', ''); // reset if not equal
+            }
+
         });
 
         $('#drTotalHeader').text(`(${dr.toLocaleString(undefined,{minimumFractionDigits:2})})`);
@@ -354,7 +395,7 @@ $(function() {
         if(i == selectedYear) option.selected = true; // mark selected
         y.add(option);
     }
-
+    y.dispatchEvent(new Event('change'));
 });
 
         document.querySelectorAll('.ripple').forEach(button => {
@@ -374,6 +415,62 @@ $(function() {
                 circle.addEventListener('animationend', () => circle.remove());
             });
         });
+
+        // Hamburger toggle
+const hamburger = document.getElementById('hamburger');
+const topMenu = document.getElementById('topMenu');
+
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active'); // animate X
+        topMenu.classList.toggle('active');   // dropdown
+    });
+
+(function () {
+    const form = document.getElementById('tbForm');
+    const month = form.querySelector('select[name="month"]');
+    const year  = form.querySelector('select[name="year"]');
+    const error = document.getElementById('monthYearError');
+    const buttons = form.querySelectorAll('button[type="submit"]');
+
+    function isValid() {
+        const hasMonth = month.value !== '';
+        const hasYear  = year.value !== '';
+
+        // valid if both empty OR both filled
+        return (hasMonth && hasYear) || (!hasMonth && !hasYear);
+    }
+
+    function updateUI() {
+        if (isValid()) {
+            error.classList.add('d-none');
+            buttons.forEach(b => {
+                b.disabled = false;
+                b.classList.remove('opacity-50');
+            });
+        } else {
+            error.classList.remove('d-none');
+            buttons.forEach(b => {
+                b.disabled = true;
+                b.classList.add('opacity-50');
+            });
+        }
+    }
+
+    // React when user changes month/year
+    month.addEventListener('change', updateUI);
+    year.addEventListener('change', updateUI);
+
+    // Block submit just in case (extra safety)
+    form.addEventListener('submit', function (e) {
+        if (!isValid()) {
+            e.preventDefault();
+            updateUI();
+        }
+    });
+
+    // Initial check on page load
+    updateUI();
+})();
 </script>
 
 </body>
