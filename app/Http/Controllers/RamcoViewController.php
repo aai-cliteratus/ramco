@@ -278,25 +278,209 @@ class RamcoViewController extends Controller
 
     public function ramco_inq_export(Request $request)
     {
+        // Log::info($request);
+        $month = "";
+        $title = "";
+        if ($request->month == 1)
+        {
+            $month = 'JANUARY';
+        }
+        if ($request->month == 2)
+        {
+            $month = 'FEBRUARY';
+        }
+        if ($request->month == 3)
+        {
+            $month = 'MARCH';
+        }
+        if ($request->month == 4)
+        {
+            $month = 'APRIL';
+        }
+        if ($request->month == 5)
+        {
+            $month = 'MAY';
+        }
+        if ($request->month == 6)
+        {
+            $month = 'JUNE';
+        }
+        if ($request->month == 7)
+        {
+            $month = 'JULY';
+        }
+        if ($request->month == 8)
+        {
+            $month = 'AUGUST';
+        }
+        if ($request->month == 9)
+        {
+            $month = 'SEPTEMBER';
+        }
+        if ($request->month == 10)
+        {
+            $month = 'OCTOBER';
+        }
+        if ($request->month == 11)
+        {
+            $month = 'NOVEMBER';
+        }
+        if ($request->month == 12)
+        {
+            $month = 'DECEMBER';
+        }
+        if ($request->doc_no)
+        {
+            $title .= "_" . $request->doc_no;
+        }
+        if ($request->doc_ref1)
+        {
+            $title .= "_" . $request->doc_ref1;
+        }
+        if ($request->doc_ref1_type)
+        {
+            $title .= "_" . $request->doc_ref1_type;
+        }
+        if ($request->month)
+        {
+            $title .= "_" . $month;
+        }
+        if ($request->year)
+        {
+            $title .= "_" . $request->year;
+        }
         return Excel::download(
             new RamcoInquiryExport($request),
-            'ramco_inquiry_' . now()->format('Ymd_His') . '.xlsx'
+            'RAMCO_INQ' . $title . '.xlsx'
         );
     }
 
     public function ramco_je_export(Request $request)
     {
+        // Log::info($request);
+        $month = "";
+        $title = "";
+        if ($request->month == 1)
+        {
+            $month = 'JANUARY';
+        }
+        if ($request->month == 2)
+        {
+            $month = 'FEBRUARY';
+        }
+        if ($request->month == 3)
+        {
+            $month = 'MARCH';
+        }
+        if ($request->month == 4)
+        {
+            $month = 'APRIL';
+        }
+        if ($request->month == 5)
+        {
+            $month = 'MAY';
+        }
+        if ($request->month == 6)
+        {
+            $month = 'JUNE';
+        }
+        if ($request->month == 7)
+        {
+            $month = 'JULY';
+        }
+        if ($request->month == 8)
+        {
+            $month = 'AUGUST';
+        }
+        if ($request->month == 9)
+        {
+            $month = 'SEPTEMBER';
+        }
+        if ($request->month == 10)
+        {
+            $month = 'OCTOBER';
+        }
+        if ($request->month == 11)
+        {
+            $month = 'NOVEMBER';
+        }
+        if ($request->month == 12)
+        {
+            $month = 'DECEMBER';
+        }
+        if ($request->doc_no)
+        {
+            $title .= "_" . $request->doc_no;
+        }
+        if ($request->month)
+        {
+            $title .= "_" . $month;
+        }
+        if ($request->year)
+        {
+            $title .= "_" . $request->year;
+        }
         return Excel::download(
             new RamcoJeExport($request),
-            'ramco_je_' . now()->format('Ymd_His') . '.xlsx'
+            'RAMCO_JE' . $title . '.xlsx'
         );
     }
 
     public function ramco_tb_export(Request $request)
     {
-        return Excel::download(
+        // Log::info($request);
+        $month = "";
+        if ($request->month == 1)
+        {
+            $month = 'JANUARY';
+        }
+        if ($request->month == 2)
+        {
+            $month = 'FEBRUARY';
+        }
+        if ($request->month == 3)
+        {
+            $month = 'MARCH';
+        }
+        if ($request->month == 4)
+        {
+            $month = 'APRIL';
+        }
+        if ($request->month == 5)
+        {
+            $month = 'MAY';
+        }
+        if ($request->month == 6)
+        {
+            $month = 'JUNE';
+        }
+        if ($request->month == 7)
+        {
+            $month = 'JULY';
+        }
+        if ($request->month == 8)
+        {
+            $month = 'AUGUST';
+        }
+        if ($request->month == 9)
+        {
+            $month = 'SEPTEMBER';
+        }
+        if ($request->month == 10)
+        {
+            $month = 'OCTOBER';
+        }
+        if ($request->month == 11)
+        {
+            $month = 'NOVEMBER';
+        }
+        if ($request->month == 12)
+        {
+            $month = 'DECEMBER';
+        }
+            return Excel::download(
             new RamcoTbExport($request),
-            'ramco_tb_' . now()->format('Ymd_His') . '.xlsx'
+            'RAMCO_TB_' . $month . '_' . $request->year  . '.xlsx'
         );
     }
 }

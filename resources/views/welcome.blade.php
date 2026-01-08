@@ -24,36 +24,61 @@
   filter: drop-shadow(0 0 6px rgba(0,255,255,0.5)) drop-shadow(0 0 12px rgba(0,255,255,0.3));
 }
 
-/* Truck Trail */
 .truck-trail {
   position: absolute;
   left: -60px;
   top: 8px;
   width: 60px;
   height: 16px;
-  background: linear-gradient(to right, rgba(0,255,255,0.5), rgba(0,255,255,0));
+  background: linear-gradient(
+    to left,
+    rgba(0,255,255,0.6),
+    rgba(0,255,255,0)
+  );
   filter: blur(6px);
   border-radius: 8px;
+  animation: trailFlow 0.6s linear infinite;
 }
 
-/* Plane Trail */
+
 .plane-trail {
   position: absolute;
   left: -60px;
   top: 4px;
   width: 60px;
   height: 12px;
-  background: linear-gradient(to right, rgba(0,255,255,0.5), rgba(0,255,255,0));
+  background: linear-gradient(
+    to left,
+    rgba(0,255,255,0.5),
+    rgba(0,255,255,0)
+  );
   filter: blur(5px);
   border-radius: 6px;
   transform: rotate(-5deg);
+  animation: trailFlow 0.5s linear infinite;
 }
 
 /* Logo Glow */
 .logo-glow {
   filter: drop-shadow(0 0 6px #0ff) drop-shadow(0 0 12px #0ff) drop-shadow(0 0 24px #0ff);
-  height: 40px;
+  height: 80px;
 }
+
+@keyframes trailFlow {
+  0% {
+    opacity: 0.2;
+    transform: scaleX(0.6);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scaleX(1);
+  }
+  100% {
+    opacity: 0.2;
+    transform: scaleX(0.6);
+  }
+}
+
 </style>
 </head>
 <body class="bg-black text-cyan-100 overflow-hidden">
@@ -91,8 +116,8 @@
   <div class="relative max-w-6xl w-full text-center z-10">
     <div class="inline-flex items-center justify-center gap-4 mb-6 fade-in">
       <h1 class="text-5xl md:text-6xl font-extrabold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-400 flex items-center gap-4">
-        <img src="{{ asset('img/logo1.png') }}" alt="Logo" class="logo-glow">
-        AAI WORLDWIDE LOGISTICS
+        <img src="{{ asset('img/logo.png') }}" alt="Logo" class="logo-glow">
+        <!-- AAI WORLDWIDE LOGISTICS -->
       </h1>
     </div>
     <p class="text-cyan-300 max-w-2xl mx-auto tracking-wide fade-in">
