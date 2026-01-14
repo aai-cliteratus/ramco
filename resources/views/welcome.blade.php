@@ -165,7 +165,7 @@ createApp({
       { icon: '📊', title: 'Ramco', desc: 'Shows both inquiry and journal entry', link: '/ramco' },
       { icon: '🔍', title: 'Ramco Inquiry', desc: 'Shows inquiry only', link: '/ramco_inq' },
       { icon: '📝', title: 'Ramco Journal Entry', desc: 'Shows journal entry only', link: '/ramco_je' },
-      { icon: '📝', title: 'Ramco Trial Balance', desc: 'Shows JE Trial Balance only', link: '/ramco_tb' },
+      { icon: '⚖️', title: 'Ramco Trial Balance', desc: 'Shows JE Trial Balance only', link: '/ramco_tb' },
     ])
 
     onMounted(() => {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InventoryImportController;
 use App\Http\Controllers\RamcoViewController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redis;
@@ -11,6 +12,8 @@ Route::get('/ramco_tb', [RamcoViewController::class, 'ramco_tb'])->name('ramco_t
 Route::get('/ramco-inq/export', [RamcoViewController::class, 'ramco_inq_export'])->name('ramco_inq.export');
 Route::get('/ramco-je/export', [RamcoViewController::class, 'ramco_je_export'])->name('ramco_je.export');
 Route::get('/ramco-tb/export', [RamcoViewController::class, 'ramco_tb_export'])->name('ramco_tb.export');
+Route::get('/uploader/inventory_import', [InventoryImportController::class, 'inventory_import'])->name('uploader.inventory_import');
+Route::post('/uploader/inventory_import', [InventoryImportController::class, 'inventory_import'])->name('uploader.inventory_import');
 
 Route::get('/redis-test', function () {
     try {
@@ -27,3 +30,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/uploader', function () {
+    return view('/uploader/index');
+});
