@@ -75,6 +75,8 @@ class InventoryImportController extends Controller
                             'remarks'      => $row['remarks'] ?? null,
                             'gr_dtl_id'    => $row['gr_dtl_id'] ?? 0,
                             'dept_code'    => 101,
+                            'created_at' => now(),
+                            'updated_at' => now(),
                         ]);
 
                         // store mapping
@@ -117,7 +119,13 @@ class InventoryImportController extends Controller
                             'lot_no'     => $row['lot_no'] ?? null,
                             'status'     => $row['status'] ?? null,
                             'inv_id'     => $inv_id,
+                            'created_at' => now(),
+                            'updated_at' => now(),
                         ]);
+
+                        DB::table($table_master)
+                            ->where('id', $inv_id)
+                            ->update(['serialized' => 'yes']);
 
                         $serialCount++;
                     }
