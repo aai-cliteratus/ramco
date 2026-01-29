@@ -74,6 +74,7 @@ class InventoryImportController extends Controller
                             'unit_price'   => $row['unit_price'] ?? 0,
                             'remarks'      => $row['remarks'] ?? null,
                             'gr_dtl_id'    => $row['gr_dtl_id'] ?? 0,
+                            'ou_code'    => $row['ou_code'] ?? 0,
                             'dept_code'    => 101,
                             'created_at' => now(),
                             'updated_at' => now(),

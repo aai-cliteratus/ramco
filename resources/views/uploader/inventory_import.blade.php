@@ -178,6 +178,7 @@
                         <th>unit_price</th>
                         <th>remarks</th>
                         <th style="background-color:#00D100">line_number</th>
+                        <th>ou_code</th>
                     </tr>
                 </thead>
             </table>
