@@ -118,7 +118,7 @@ class InventoryImportController extends Controller
                             'warranty_no'=> $row['warranty_no'] ?? null,
                             'expiry'     => InventoryImportController::parseExcelDate($row['expiry'] ?? null),
                             'lot_no'     => $row['lot_no'] ?? null,
-                            'status'     => $row['status'] ?? null,
+                            'status'     => $row['status'] ?? 'unpicked',
                             'inv_id'     => $inv_id,
                             'created_at' => now(),
                             'updated_at' => now(),
